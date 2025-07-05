@@ -1,4 +1,4 @@
-// 1:44:38
+// 2:39:18
 
 import { AuthProvider, useAuth } from '@/lib/auth-context'
 import { Stack, useRouter, useSegments } from 'expo-router'
