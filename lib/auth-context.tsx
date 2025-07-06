@@ -20,7 +20,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		getUser()
 	}, [])
 
-	async function getUser() {
+	const getUser = async () => {
 		try {
 			const session = await account.get()
 			setUser(session)
@@ -32,7 +32,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		}
 	}
 
-	async function signUp(email: string, password: string) {
+	const signUp = async (email: string, password: string) => {
 		try {
 			await account.create(ID.unique(), email, password)
 			await signIn(email, password)
@@ -46,7 +46,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		}
 	}
 
-	async function signIn(email: string, password: string) {
+	const signIn = async (email: string, password: string) => {
 		try {
 			await account.createEmailPasswordSession(email, password)
 			const session = await account.get()
@@ -61,7 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		}
 	}
 
-	async function signOut() {
+	const signOut = async () => {
 		try {
 			await account.deleteSession('current')
 			setUser(null)

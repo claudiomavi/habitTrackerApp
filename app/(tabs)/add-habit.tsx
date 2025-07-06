@@ -18,7 +18,7 @@ export default function AddHabitScreen() {
 	const router = useRouter()
 	const theme = useTheme()
 
-	async function handleSubmit() {
+	const handleSubmit = async () => {
 		if (!user) return
 
 		try {

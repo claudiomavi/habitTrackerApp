@@ -7,7 +7,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { PaperProvider } from 'react-native-paper'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-function RouteGuard({ children }: { children: React.ReactNode }) {
+const RouteGuard = ({ children }: { children: React.ReactNode }) => {
 	const router = useRouter()
 	const { user, isLoadingUser } = useAuth()
 	const segments = useSegments()

@@ -15,7 +15,7 @@ export default function AuthScreen() {
 
 	const { signIn, signUp } = useAuth()
 
-	async function handleAuth() {
+	const handleAuth = async () => {
 		if (!email || !password) {
 			setError('Please, fill in all the fields')
 			return
@@ -45,7 +45,7 @@ export default function AuthScreen() {
 		}
 	}
 
-	function handleSwitchMode() {
+	const handleSwitchMode = () => {
 		setIsSignUp((prev) => !prev)
 	}
 
