@@ -5,7 +5,7 @@ export default function StreaksScreen() {
 	return (
 		<View style={styles.view}>
 			<Link
-				href="/prueba/1"
+				href="/"
 				style={styles.h1}>
 				1
 			</Link>
