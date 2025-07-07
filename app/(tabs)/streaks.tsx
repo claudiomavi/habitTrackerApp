@@ -1,14 +1,13 @@
 import { Link } from 'expo-router'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 export default function StreaksScreen() {
 	return (
 		<View style={styles.view}>
-			<Text style={styles.h1}>Hello, This is the login page</Text>
 			<Link
-				href="/"
-				style={styles.button}>
-				Home...
+				href="/prueba/1"
+				style={styles.h1}>
+				1
 			</Link>
 		</View>
 	)
