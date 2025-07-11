@@ -6,10 +6,10 @@ import {
 } from '@/lib/appwrite'
 import { useAuth } from '@/lib/auth-context'
 import { Habit, HabitCompletions } from '@/types/database.type'
-import { Link } from 'expo-router'
 import { useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { Query } from 'react-native-appwrite'
+import { Text } from 'react-native-paper'
 
 export default function StreaksScreen() {
 	const [habits, setHabits] = useState<Habit[]>()
@@ -52,33 +52,8 @@ export default function StreaksScreen() {
 	}
 
 	return (
-		<View style={styles.view}>
-			<Link
-				href="/"
-				style={styles.h1}
-			>
-				1
-			</Link>
+		<View>
+			<Text>Habit Streaks</Text>
 		</View>
 	)
 }
-
-const styles = StyleSheet.create({
-	view: {
-		flex: 1,
-		gap: 8,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	h1: {
-		textAlign: 'center',
-		margin: 20,
-		fontSize: 40,
-	},
-	button: {
-		textAlign: 'center',
-		backgroundColor: 'coral',
-		color: 'white',
-		padding: 8,
-	},
-})
