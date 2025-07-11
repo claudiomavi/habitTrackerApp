@@ -184,8 +184,10 @@ export default function StreaksScreen() {
 			)}
 
 			{habits.length === 0 ? (
-				<View>
-					<Text>No habits yet. Add your first Habit!</Text>
+				<View style={styles.emptyState}>
+					<Text style={styles.emptyStateText}>
+						No habits yet. Add your first Habit!
+					</Text>
 				</View>
 			) : (
 				<ScrollView
@@ -229,6 +231,13 @@ export default function StreaksScreen() {
 }
 
 const styles = StyleSheet.create({
+	emptyState: {
+		flex: 1,
+		alignItems: 'center',
+	},
+	emptyStateText: {
+		color: '#666666',
+	},
 	container: {
 		flex: 1,
 		backgroundColor: '#f5f5f5',
