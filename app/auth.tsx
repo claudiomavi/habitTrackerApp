@@ -52,11 +52,13 @@ export default function AuthScreen() {
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-			style={styles.container}>
+			style={styles.container}
+		>
 			<View style={styles.content}>
 				<Text
 					style={styles.title}
-					variant="headlineMedium">
+					variant="headlineMedium"
+				>
 					{isSignUp ? 'Creacte account' : 'Welcome Back'}
 				</Text>
 				<TextInput
@@ -82,14 +84,18 @@ export default function AuthScreen() {
 				<Button
 					mode="contained"
 					style={styles.button}
-					onPress={handleAuth}>
+					onPress={handleAuth}
+				>
 					{isSignUp ? 'Sign Up' : 'Sign In'}
 				</Button>
 				<Button
 					mode="text"
 					onPress={handleSwitchMode}
-					style={styles.switchModeButton}>
-					{isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
+					style={styles.switchModeButton}
+				>
+					{isSignUp
+						? 'Already have an account? Sign in'
+						: "Don't have an account? Sign up"}
 				</Button>
 			</View>
 		</KeyboardAvoidingView>
