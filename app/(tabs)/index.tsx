@@ -99,9 +99,9 @@ export default function Index() {
 	}
 
 	const renderRightActions = () => (
-		<View style={styles.swipeActionRight}>
+		<View style={styles.swipeActionLeft}>
 			<MaterialCommunityIcons
-				name="check-circle-outline"
+				name={'trash-can-outline'}
 				size={32}
 				color={'#fff'}
 			/>
@@ -109,9 +109,9 @@ export default function Index() {
 	)
 
 	const renderLeftActions = () => (
-		<View style={styles.swipeActionLeft}>
+		<View style={styles.swipeActionRight}>
 			<MaterialCommunityIcons
-				name={'trash-can-outline'}
+				name="check-circle-outline"
 				size={32}
 				color={'#fff'}
 			/>
@@ -152,9 +152,9 @@ export default function Index() {
 							renderRightActions={renderRightActions}
 							onSwipeableOpen={(direction) => {
 								if (direction === 'left') {
-									handleDeleteHabit(habit.$id)
-								} else if (direction === 'right') {
 									handleCompleteHabit(habit.$id)
+								} else if (direction === 'right') {
+									handleDeleteHabit(habit.$id)
 								}
 
 								swapableRefs.current[habit.$id]?.close()
