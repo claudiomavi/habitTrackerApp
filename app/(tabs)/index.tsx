@@ -1,4 +1,11 @@
-import { client, COMPLETIONS_COLLECTION_ID, DATABASE_ID, databases, HABITS_COLLECTION_ID, RealtimeResponse } from '@/lib/appwrite'
+import {
+	client,
+	COMPLETIONS_COLLECTION_ID,
+	DATABASE_ID,
+	databases,
+	HABITS_COLLECTION_ID,
+	RealtimeResponse,
+} from '@/lib/appwrite'
 import { useAuth } from '@/lib/auth-context'
 import { Habit, HabitCompletions } from '@/types/database.type'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
@@ -18,22 +25,44 @@ export default function Index() {
 	useEffect(() => {
 		if (user) {
 			const habitsChannel = `databases.${DATABASE_ID}.collections.${HABITS_COLLECTION_ID}.documents`
-			const habitsSubscription = client.subscribe(habitsChannel, (response: RealtimeResponse) => {
-				if (response.events.includes('databases.*.collections.*.documents.*.create')) {
-					fetchHabits()
-				} else if (response.events.includes('databases.*.collections.*.documents.*.update')) {
-					fetchHabits()
-				} else if (response.events.includes('databases.*.collections.*.documents.*.delete')) {
-					fetchHabits()
+			const habitsSubscription = client.subscribe(
+				habitsChannel,
+				(response: RealtimeResponse) => {
+					if (
+						response.events.includes(
+							'databases.*.collections.*.documents.*.create'
+						)
+					) {
+						fetchHabits()
+					} else if (
+						response.events.includes(
+							'databases.*.collections.*.documents.*.update'
+						)
+					) {
+						fetchHabits()
+					} else if (
+						response.events.includes(
+							'databases.*.collections.*.documents.*.delete'
+						)
+					) {
+						fetchHabits()
+					}
 				}
-			})
+			)
 
 			const completionsChannel = `databases.${DATABASE_ID}.collections.${COMPLETIONS_COLLECTION_ID}.documents`
-			const completionsSubscription = client.subscribe(completionsChannel, (response: RealtimeResponse) => {
-				if (response.events.includes('databases.*.collections.*.documents.*.create')) {
-					fetchTodayCompletions()
+			const completionsSubscription = client.subscribe(
+				completionsChannel,
+				(response: RealtimeResponse) => {
+					if (
+						response.events.includes(
+							'databases.*.collections.*.documents.*.create'
+						)
+					) {
+						fetchTodayCompletions()
+					}
 				}
-			})
+			)
 
 			fetchHabits()
 			fetchTodayCompletions()
@@ -47,7 +76,11 @@ export default function Index() {
 
 	const fetchHabits = async () => {
 		try {
-			const response = await databases.listDocuments(DATABASE_ID, HABITS_COLLECTION_ID, [Query.equal('user_id', user?.$id ?? '')])
+			const response = await databases.listDocuments(
+				DATABASE_ID,
+				HABITS_COLLECTION_ID,
+				[Query.equal('user_id', user?.$id ?? '')]
+			)
 			setHabits(response.documents as Habit[])
 		} catch (error) {
 			console.log(error)
@@ -59,7 +92,14 @@ export default function Index() {
 			const today = new Date()
 			today.setHours(0, 0, 0, 0)
 
-			const response = await databases.listDocuments(DATABASE_ID, COMPLETIONS_COLLECTION_ID, [Query.equal('user_id', user?.$id ?? ''), Query.greaterThanEqual('completed_at', today.toISOString())])
+			const response = await databases.listDocuments(
+				DATABASE_ID,
+				COMPLETIONS_COLLECTION_ID,
+				[
+					Query.equal('user_id', user?.$id ?? ''),
+					Query.greaterThanEqual('completed_at', today.toISOString()),
+				]
+			)
 
 			const completions = response.documents as HabitCompletions[]
 			setCompletedHabits(completions.map((c) => c.habit_id))
@@ -80,11 +120,16 @@ export default function Index() {
 		if (!user || completedHabits?.includes(id)) return
 		try {
 			const currentDate = new Date().toISOString()
-			await databases.createDocument(DATABASE_ID, COMPLETIONS_COLLECTION_ID, ID.unique(), {
-				habit_id: id,
-				user_id: user?.$id,
-				completed_at: currentDate,
-			})
+			await databases.createDocument(
+				DATABASE_ID,
+				COMPLETIONS_COLLECTION_ID,
+				ID.unique(),
+				{
+					habit_id: id,
+					user_id: user?.$id,
+					completed_at: currentDate,
+				}
+			)
 
 			const habit = habits?.find((h) => h.$id === id)
 			if (!habit) return
@@ -131,13 +176,15 @@ export default function Index() {
 			<View style={styles.header}>
 				<Text
 					variant="headlineSmall"
-					style={styles.title}>
+					style={styles.title}
+				>
 					Today&apos;s Habits
 				</Text>
 				<Button
 					mode="text"
 					onPress={signOut}
-					icon={'logout'}>
+					icon={'logout'}
+				>
 					Sign Out
 				</Button>
 			</View>
@@ -145,7 +192,9 @@ export default function Index() {
 			<ScrollView showsVerticalScrollIndicator={false}>
 				{habits?.length === 0 ? (
 					<View style={styles.emptyState}>
-						<Text style={styles.emptyStateText}>No habits yet. Add your first Habit!</Text>
+						<Text style={styles.emptyStateText}>
+							No habits yet. Add your first Habit!
+						</Text>
 					</View>
 				) : (
 					habits?.map((habit, key) => (
@@ -166,13 +215,20 @@ export default function Index() {
 								}
 
 								swapableRefs.current[habit.$id]?.close()
-							}}>
+							}}
+						>
 							<Surface
-								style={[styles.card, isHabitCompleted(habit.$id) && styles.cardCompleted]}
-								elevation={0}>
+								style={[
+									styles.card,
+									isHabitCompleted(habit.$id) && styles.cardCompleted,
+								]}
+								elevation={0}
+							>
 								<View style={styles.cardContent}>
 									<Text style={styles.cardTitle}>{habit.title}</Text>
-									<Text style={styles.cardDescription}>{habit.description}</Text>
+									<Text style={styles.cardDescription}>
+										{habit.description}
+									</Text>
 									<View style={styles.cardFooter}>
 										<View style={styles.streaksBadge}>
 											<MaterialCommunityIcons
@@ -180,10 +236,14 @@ export default function Index() {
 												size={18}
 												color={'#ff9800'}
 											/>
-											<Text style={styles.streaksText}>{habit.streak_count} day streak</Text>
+											<Text style={styles.streaksText}>
+												{habit.streak_count} day streak
+											</Text>
 										</View>
 										<View style={styles.frequencyBadge}>
-											<Text style={styles.frequencyText}>{habit.frequency}</Text>
+											<Text style={styles.frequencyText}>
+												{habit.frequency}
+											</Text>
 										</View>
 									</View>
 								</View>
