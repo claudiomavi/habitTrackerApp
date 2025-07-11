@@ -17,8 +17,8 @@ export default function Index() {
 
 	useEffect(() => {
 		if (user) {
-			const channel = `databases.${DATABASE_ID}.collections.${HABITS_COLLECTION_ID}.documents`
-			const habitSubscription = client.subscribe(channel, (response: RealtimeResponse) => {
+			const habitsChannel = `databases.${DATABASE_ID}.collections.${HABITS_COLLECTION_ID}.documents`
+			const habitsSubscription = client.subscribe(habitsChannel, (response: RealtimeResponse) => {
 				if (response.events.includes('databases.*.collections.*.documents.*.create')) {
 					fetchHabits()
 				} else if (response.events.includes('databases.*.collections.*.documents.*.update')) {
@@ -28,11 +28,19 @@ export default function Index() {
 				}
 			})
 
+			const completionsChannel = `databases.${DATABASE_ID}.collections.${COMPLETIONS_COLLECTION_ID}.documents`
+			const completionsSubscription = client.subscribe(completionsChannel, (response: RealtimeResponse) => {
+				if (response.events.includes('databases.*.collections.*.documents.*.create')) {
+					fetchTodayCompletions()
+				}
+			})
+
 			fetchHabits()
 			fetchTodayCompletions()
 
 			return () => {
-				habitSubscription()
+				habitsSubscription()
+				completionsSubscription()
 			}
 		}
 	}, [user])
