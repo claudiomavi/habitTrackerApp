@@ -103,7 +103,7 @@ export default function Index() {
 	}
 
 	const renderRightActions = () => (
-		<View style={styles.swipeActionLeft}>
+		<View style={styles.swipeActionRight}>
 			<MaterialCommunityIcons
 				name={'trash-can-outline'}
 				size={32}
@@ -112,13 +112,17 @@ export default function Index() {
 		</View>
 	)
 
-	const renderLeftActions = () => (
-		<View style={styles.swipeActionRight}>
-			<MaterialCommunityIcons
-				name="check-circle-outline"
-				size={32}
-				color={'#fff'}
-			/>
+	const renderLeftActions = (habitId: string) => (
+		<View style={styles.swipeActionLeft}>
+			{isHabitCompleted(habitId) ? (
+				<Text style={{ color: '#fff' }}>Completed!</Text>
+			) : (
+				<MaterialCommunityIcons
+					name="check-circle-outline"
+					size={32}
+					color={'#fff'}
+				/>
+			)}
 		</View>
 	)
 
@@ -152,7 +156,7 @@ export default function Index() {
 							key={key}
 							overshootLeft={false}
 							overshootRight={false}
-							renderLeftActions={renderLeftActions}
+							renderLeftActions={() => renderLeftActions(habit.$id)}
 							renderRightActions={renderRightActions}
 							onSwipeableOpen={(direction) => {
 								if (direction === 'left') {
@@ -164,7 +168,7 @@ export default function Index() {
 								swapableRefs.current[habit.$id]?.close()
 							}}>
 							<Surface
-								style={styles.card}
+								style={[styles.card, isHabitCompleted(habit.$id) && styles.cardCompleted]}
 								elevation={0}>
 								<View style={styles.cardContent}>
 									<Text style={styles.cardTitle}>{habit.title}</Text>
@@ -216,6 +220,9 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.08,
 		shadowRadius: 8,
 		elevation: 4,
+	},
+	cardCompleted: {
+		opacity: 0.6,
 	},
 	cardContent: {
 		padding: 20,
@@ -274,7 +281,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'flex-start',
 		flex: 1,
-		backgroundColor: '#e53935',
+		backgroundColor: '#4caf50',
 		borderRadius: 18,
 		marginBottom: 18,
 		marginTop: 2,
@@ -284,7 +291,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'flex-end',
 		flex: 1,
-		backgroundColor: '#4caf50',
+		backgroundColor: '#e53935',
 		borderRadius: 18,
 		marginBottom: 18,
 		marginTop: 2,
