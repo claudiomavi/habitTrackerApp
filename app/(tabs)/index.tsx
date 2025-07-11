@@ -98,6 +98,10 @@ export default function Index() {
 		}
 	}
 
+	const isHabitCompleted = (habitId: string) => {
+		return completedHabits?.includes(habitId)
+	}
+
 	const renderRightActions = () => (
 		<View style={styles.swipeActionLeft}>
 			<MaterialCommunityIcons
