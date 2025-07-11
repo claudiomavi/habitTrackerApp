@@ -152,7 +152,7 @@ export default function StreaksScreen() {
 		return { habit, streak, bestStreak, total }
 	})
 
-	const rankedHabits = habitStreaks.sort((a, b) => a.bestStreak - b.bestStreak)
+	const rankedHabits = habitStreaks.sort((a, b) => b.bestStreak - a.bestStreak)
 
 	const badgeStyles = [styles.badge1, styles.badge2, styles.badge3]
 
